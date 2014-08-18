@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>2048</title>
+	<link rel="stylesheet" href="./css/app.css">
+  </head>
+  <body>
+	<div id="splash" class="splash">
+	    <div class="splashText">Atom 2048<p><small>A 2048 Clone</small></div>
+	</div>
+  	
+	<div id="content" class="content">
+		<div id="msg" class="msg"></div>
+		<br/>
+		<table id="board" class="board">
+			<tr><td id="0">&nbsp;</td><td id="1">&nbsp;</td><td id="2">&nbsp;</td><td id="3">&nbsp;</td></tr>
+			<tr><td id="4">&nbsp;</td><td id="5">&nbsp;</td><td id="6">&nbsp;</td><td id="7">&nbsp;</td></tr>
+			<tr><td id="8">&nbsp;</td><td id="9">&nbsp;</td><td id="10">&nbsp;</td><td id="11">&nbsp;</td></tr>
+			<tr><td id="12">&nbsp;</td><td id="13">&nbsp;</td><td id="14">&nbsp;</td><td id="15">&nbsp;</td></tr>
+		</table>
+	</div>
+	
+	<script type="text/javascript">
+		window.$ = window.jQuery = require('./libs/jquery-2.1.1.min.js');
+		window._ = require('./libs/lodash.min.js');
+	</script>
+
+	<script src="./src/app.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Atom2048.init();
+		});
+	</script>
+  </body>
+</html>

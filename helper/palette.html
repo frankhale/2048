@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Yummy Pastel Colors!</title>
+	<style>
+		.tile {
+			display: inline-block;
+			align: center;
+			line-height: 32px;
+			border: 2px solid #999;
+			color: #000;
+			text-align: center;	
+			font-weight: bold;
+			width: 32px;
+			height: 32px;
+			border-radius: 10px;
+		}
+	</style>
+  </head>
+  <body>
+	<div id="content"></div>
+	
+	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript">
+		var tiles = {
+			// COLORS BORROWED FROM http://www.tinygorilla.com/Easter_eggs/PallateHex.html
+			brown: "#C7B299",
+			darkbrown: "#998675",
+			red: "#F26C4F",
+			redorange: "#F68E55",
+			orange: "#FBAF5C",
+			yellow: "#FFF467",
+			green: "#ACD372",
+			greencyan: "#1ABBB4",
+			blue: "#5574B9",
+			violet: "#855FA8",
+			magenta: "#F06EA9",
+			redmagenta: "#F26D7D"
+		}
+		
+		function createTile(num, col) {
+			return "<div class='tile' style='background-color:" + col + ";'>" + num + "</div>&nbsp;";
+		}
+		
+		var two = createTile(2, tiles.brown);
+		var four = createTile(4, tiles.darkbrown);
+		var eight = createTile(8, tiles.red);
+		var sixteen = createTile(16, tiles.orange);
+		var thirtytwo = createTile(32, tiles.redorange);
+		var sixtyfour = createTile(64, tiles.yellow);
+		var onetwentyeight = createTile(128, tiles.green);
+		var twofiftysix = createTile(256, tiles.greencyan);
+		var fivetwelve = createTile(512, tiles.blue);
+		var onezerotwofour = createTile(1024, tiles.violet);
+		var twozerofoureight = createTile(2048, tiles.magenta);
+		var fourzeroninesix = createTile(4096, tiles.redmagenta);
+				
+		$("#content").append(two);
+		$("#content").append(four);
+		$("#content").append(eight);
+		$("#content").append(sixteen);
+		$("#content").append("<p>");
+		$("#content").append(thirtytwo);
+		$("#content").append(sixtyfour);
+		$("#content").append(onetwentyeight);
+		$("#content").append(twofiftysix);
+		$("#content").append("<p>");
+		$("#content").append(fivetwelve);
+		$("#content").append(onezerotwofour);
+		$("#content").append(twozerofoureight);
+		$("#content").append(fourzeroninesix);
+	</script>
+  </body>
+</html>
