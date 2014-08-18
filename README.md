@@ -2,7 +2,7 @@
  
 An Atom Shell Based 2048 game
   
-<img src="screenshots/2048.PNG" alt="2048 screenshot" />
+<img src="screenshots/2048.png" alt="2048 screenshot" />
 
 ##Requirements
 
