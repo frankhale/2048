@@ -3,7 +3,7 @@
 //
 // Frank Hale <frankhale@gmail.com>
 //
-// Date: 15 August 2014
+// Date: 19 August 2014
 //
 
 var Atom2048 = (function($, my){
@@ -22,6 +22,11 @@ var Atom2048 = (function($, my){
 	  {
 		label: 'Game',
 		submenu: [
+		  {
+			label: 'Restart',
+			 accelerator: 'Ctrl+S',
+			click: function() { my.init(true); }
+		  },
 		  {
 			label: 'Toggle Dev Tools',
 			 accelerator: 'Ctrl+D',
@@ -48,7 +53,7 @@ var Atom2048 = (function($, my){
         down: 40
 	};
 	
-	// COLORS BORROWED FROM http://www.tinygorilla.com/Easter_eggs/PallateHex.html
+	// Colors borrowed from: http://www.tinygorilla.com/Easter_eggs/PallateHex.html
 	var tileColors = {		
 		blank: "#FFFFFF",
 		_2: "#C7B299",
@@ -108,9 +113,9 @@ var Atom2048 = (function($, my){
 		[ 0,0,0,0 ],
 		[ 0,0,0,0 ]
 	];
-
+	
 	// This code was adapted from from http://stackoverflow.com/questions/42519/how-do-you-rotate-a-two-dimensional-array
-	function rotateMatrix(m, n, direction) {
+	var rotateMatrix = function(m, n, direction) {
 		var result = [];
 		
 		for(var x = 0; x < n; x++) {
@@ -128,9 +133,8 @@ var Atom2048 = (function($, my){
 		}
 		
 		return result;
-	}
+	};
 	
-	// FIXME: This is still buggy!
 	var sumTiles = function(m, performChange, dir, onSumCallback) {
 		for(var row=0; row < m.length; row++) {
 			for(var tile=0; tile < m[row].length; tile++) {
@@ -149,12 +153,11 @@ var Atom2048 = (function($, my){
 					if(matches.length>0) {
 						if(performChange) {
 							if(dir === RotateDirection.Right) {
-								console.log(tile+matches.length);
 								m[row][tile] = 0;
-								m[row][tile+matches.length] += currTile;								
+								m[row][tile+matches.length] = currTile * 2;								
 								onSumCallback(m[row][tile+matches.length]);
 							} else if (dir === RotateDirection.Left) {
-								m[row][tile] += currTile;
+								m[row][tile] = currTile * 2;
 								m[row][tile+matches.length] = 0;
 								onSumCallback(m[row][tile]);							
 							}
@@ -193,7 +196,7 @@ var Atom2048 = (function($, my){
 	var drawGameBoard = function(board) {
 		gameBoardData = addNewTile(gameBoardData);
 		
-		$('#msg').html(sprintf("<b>score: %d</b>", player.score));
+		$('#msg').html(sprintf("<b>Score: %d</b>", player.score));
 		
 		var _counter=0;
 		for(var row = 0; row < board.length; row++) {
@@ -246,21 +249,15 @@ var Atom2048 = (function($, my){
 				if(newTile.x === tile && newTile.y === row) {				
 					var newTileIndex = -1;
 					
-					console.log("board[row].length = " + board[row].length);
-					console.log("newTile.x = " + newTile.x);
-					console.log("row = " + row);
-					
 					if(newTile.y === 0) {
 						newTileIndex = newTile.x;
 					} else {
 						newTileIndex = (board[row].length * row) + newTile.x;						
 					}
+
 					newTile = { x: -1, y: -1 };
-					
-					console.log("new tile index = %d", newTileIndex);
-					
 					$(sprintf("#%d", newTileIndex)).children().addClass("newTile");
-						
+
 					setTimeout(function() {					
 						$(".newTile").removeClass("newTile");
 					}, 1000);
@@ -295,84 +292,89 @@ var Atom2048 = (function($, my){
 	};
 	
 	var leftTransform = function(data) {
-		//console.log("Left key pressed");
-		
+		function mvLeft(data) {
+			for(var row = 0; row < data.length; row++) {
+				var _t = _.without(data[row], 0);
+				var tlength = _t.length;
+				for(var i = 0; i < data[row].length - tlength; i++) {
+					_t.push(0);
+				}
+				data[row] = _t;
+			}
+			return data;
+		}
+
+		data = mvLeft(data);
 		data = sumTiles(data, true, RotateDirection.Left, function(num) {
 			player.score+=num;
 		});
-		
-		for(var row = 0; row < data.length; row++) {
-			var _t = _.without(data[row], 0);
-			var tlength = _t.length;
-			for(var i = 0; i < data[row].length - tlength; i++) {
-				_t.push(0);
-			}
-			//console.log(_t);
-			data[row] = _t;
-		}
+		data = mvLeft(data);
 		
 		return data;
 	};
 	var rightTransform = function(data) {
-		//console.log("Right key pressed");
+		function mvRight(data) {
+			for(var row = 0; row < data.length; row++) {
+				var _t = _.without(data[row], 0);
+				var tlength = _t.length;
+				for(var i = 0; i < data[row].length - tlength; i++) {
+					_t.unshift(0);
+				}
+				data[row] = _t;
+			}
+			return data;
+		}
 		
+		data = mvRight(data);
 		data = sumTiles(data, true, RotateDirection.Right, function(num) {
 			player.score+=num;
-			console.log("sumTiles callback called");
 		});
-		
-		for(var row = 0; row < data.length; row++) {
-			var _t = _.without(data[row], 0);
-			var tlength = _t.length;
-			for(var i = 0; i < data[row].length - tlength; i++) {
-				_t.unshift(0);
-			}
-			//console.log(_t);
-			data[row] = _t;
-		}
+		data = mvRight(data);
 		
 		return data;
 	};
-	var upTransform = function(data) {				
-		//console.log("Up key pressed");
-		
+	var upTransform = function(data) {
+		function mvUp(data) {
+			for(var row = 0; row < data.length; row++) {
+				var _t = _.without(data[row], 0);
+				var tlength = _t.length;
+				for(var i = 0; i < data[row].length - tlength; i++) {
+					_t.unshift(0);
+				}
+				data[row] = _t;
+			}
+			return data;
+		}
+
 		data = rotateMatrix(data, 4, RotateDirection.Right);
-		
+		data = mvUp(data);
 		data = sumTiles(data, true, RotateDirection.Right, function(num) {
 			player.score+=num;
 		});
-		
-		for(var row = 0; row < data.length; row++) {
-			var _t = _.without(data[row], 0);
-			var tlength = _t.length;
-			for(var i = 0; i < data[row].length - tlength; i++) {
-				_t.unshift(0);
-			}
-			data[row] = _t;
-		}
-		
+		data = mvUp(data);
 		data = rotateMatrix(data, 4, RotateDirection.Left);
 		
 		return data;
 	};
-	var downTransform = function(data, once) {
-		//console.log("Down key pressed");
-		
+	var downTransform = function(data) {
+		function mvDown(data) {
+			for(var row = 0; row < data.length; row++) {
+				var _t = _.without(data[row], 0);
+				var tlength = _t.length;
+				for(var i = 0; i < data[row].length - tlength; i++) {
+					_t.push(0);
+				}
+				data[row] = _t;
+			}
+			return data;
+		}
+
 		data = rotateMatrix(data, 4, RotateDirection.Right);
-		
+		data = mvDown(data);
 		data = sumTiles(data, true, RotateDirection.Left, function(num) {
 			player.score+=num;
 		});
-		
-		for(var row = 0; row < data.length; row++) {
-			var _t = _.without(data[row], 0);
-			var tlength = _t.length;
-			for(var i = 0; i < data[row].length - tlength; i++) {
-				_t.push(0);
-			}
-			data[row] = _t;
-		}
-		
+		data = mvDown(data);
 		data = rotateMatrix(data, 4, RotateDirection.Left);
 		
 		return data;
@@ -404,14 +406,25 @@ var Atom2048 = (function($, my){
 		});
 	};
 	
-	my.init = function () {
-		$splash.fadeOut(5000, function() {
-			$content.fadeIn("slow");
+	my.init = function (restart) {
+		if(restart == undefined || restart !== true) {
 			var menu = Menu.buildFromTemplate(menuTemplate);
 			Menu.setApplicationMenu(menu);
 			document.onkeydown = function(e) { documentOnkeydown(e); };
+
+			$splash.fadeOut(3500, function() {
+				$content.toggle();
+				drawGameBoard(gameBoardData);
+			});
+		} else {
+			for(var i=0;i<gameBoardData.length; i++) {
+				for(var j=0;j<gameBoardData[i].length; j++) {
+					gameBoardData[i][j] = 0;
+				}
+			}
+			player.score=0;
 			drawGameBoard(gameBoardData);
-		});
+		}
 	};
 	
 	my.toggleDevTools = function() {

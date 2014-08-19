@@ -12,10 +12,6 @@ Atom-Shell - https://github.com/atom/atom-shell
 
 Use the arrow keys to move the tiles.
   
-##Status
-
-It's playable but the adding routine is buggy still.
-
 ##License
 
 Eclipse Public License (see LICENSE for details)
