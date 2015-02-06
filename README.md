@@ -11,7 +11,7 @@ An 2048 clone written for Atom-Shell.
 
 ##Release(s)
 
-0.3.0 - https://github.com/frankhale/2048/releases
+0.3.0 - http://github.com/frankhale/2048/releases/tag/v0.3.0
 
 Currently there is only a Windows binary provided.
 
