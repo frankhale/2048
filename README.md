@@ -1,17 +1,17 @@
 #2048
  
-An Atom Shell Based 2048 game
+An 2048 clone written for Atom-Shell.
   
 <img src="screenshots/2048.png" alt="2048 screenshot" />
 
 ##Status
 
-- There are some quirks but it's playable, the quirks will become obvious if you play a few games
+- There is no feedback when you get a 2048 tile
 - There is no feedback when there are no moves left
 
 ##Requirements
 
-Atom-Shell - https://github.com/atom/atom-shell
+Atom-Shell - http://github.com/atom/atom-shell
 
 ##Directions
 
@@ -19,4 +19,4 @@ Use the arrow keys to move the tiles.
   
 ##License
 
-Eclipse Public License (see LICENSE for details)
+GNU GPL v2
