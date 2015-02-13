@@ -22,17 +22,17 @@ var Atom2048 = (function(){
       label: 'Restart Game',
       accelerator: 'Ctrl+S',
       click: function() { my.init(true); }
-    },
-    {
-      label: 'Toggle Dev Tools',
-      accelerator: 'Ctrl+D',
-      click: function() { my.toggleDevTools(); }
-    },
-    {
-      label: 'Reload',
-      accelerator: 'Ctrl+R',
-      click: function() { my.reload(); }
-    }
+    }//,
+    //{
+    //  label: 'Toggle Dev Tools',
+    //  accelerator: 'Ctrl+D',
+    //  click: function() { my.toggleDevTools(); }
+    //},
+    //{
+    //  label: 'Reload',
+    //  accelerator: 'Ctrl+R',
+    //  click: function() { my.reload(); }
+    //}
     ]
   }
   ];
