@@ -22,17 +22,17 @@ var Atom2048 = (function(){
       label: 'Restart Game',
       accelerator: 'Ctrl+S',
       click: function() { my.init(true); }
-    }//,
-    //{
-    //  label: 'Toggle Dev Tools',
-    //  accelerator: 'Ctrl+D',
-    //  click: function() { my.toggleDevTools(); }
-    //},
-    //{
-    //  label: 'Reload',
-    //  accelerator: 'Ctrl+R',
-    //  click: function() { my.reload(); }
-    //}
+    },
+    {
+      label: 'Toggle Dev Tools',
+      accelerator: 'Ctrl+D',
+      click: function() { my.toggleDevTools(); }
+    },
+    {
+      label: 'Reload',
+      accelerator: 'Ctrl+R',
+      click: function() { my.reload(); }
+    }
     ]
   }
   ];
@@ -382,26 +382,45 @@ var Atom2048 = (function(){
     return data;
   };
 
+  // http://stackoverflow.com/a/10316616/170217
+  var arraysEqual = (a1,a2) => {
+    return JSON.stringify(a1)==JSON.stringify(a2);
+  };
+
   var documentOnkeydown = (e) => {		
+    var data = gameBoardData.slice(0);
+
     switch (e.keyCode) {
       case keyCodes.left: 
         gameBoardData = leftTransform(gameBoardData);
-      drawGameBoard(gameBoardData);
+
+        if(!(arraysEqual(data, gameBoardData))) { 
+          drawGameBoard(gameBoardData);
+        }
       break;
 
       case keyCodes.right:
         gameBoardData = rightTransform(gameBoardData);
-      drawGameBoard(gameBoardData);
+        
+        if(!(arraysEqual(data, gameBoardData))) { 
+          drawGameBoard(gameBoardData);
+        }
       break;
 
       case keyCodes.up:
         gameBoardData = upTransform(gameBoardData);
-      drawGameBoard(gameBoardData);
+        
+        if(!(arraysEqual(data, gameBoardData))) { 
+          drawGameBoard(gameBoardData);
+        }
       break;
 
       case keyCodes.down: 
         gameBoardData = downTransform(gameBoardData);
-      drawGameBoard(gameBoardData);
+
+        if(!(arraysEqual(data, gameBoardData))) { 
+          drawGameBoard(gameBoardData);
+        }
       break;
     }
   };
