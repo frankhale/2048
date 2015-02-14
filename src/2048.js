@@ -5,8 +5,6 @@
 //
 // Frank Hale <frankhale@gmail.com>
 //
-// Date: 5 February 2015
-//
 
 var Atom2048 = (function () {
   var my = {},
