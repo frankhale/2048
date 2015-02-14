@@ -270,7 +270,7 @@ var Atom2048 = (function () {
       var seed = Math.floor(Math.random() * 16 + 1);
 
       if (data[row][tile] === 0) {
-        if (seed < 12) {
+        if (seed < 14) {
           data[row][tile] = 2;
         } else {
           data[row][tile] = 4;
