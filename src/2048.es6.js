@@ -254,15 +254,15 @@ var Atom2048 = (function(){
           newTile = { x: -1, y: -1 };
 
           $(`#${newTileIndex}`).children().addClass("newTile");
-
-          setTimeout(() => {					
-            $(".newTile").removeClass("newTile");
-          }, 1000);
         }
 
         _counter++;
       }
     }
+
+    setTimeout(() => {					
+      $(".newTile").each((e) => $(e).removeClass("newTile"), 2000);
+    });
   };
 
   var addNewTile = (data) => {
@@ -424,7 +424,7 @@ var Atom2048 = (function(){
   };
 
   my.init = (restart) => {
-    if(restart == undefined || restart !== true) {
+    if(restart === undefined || restart !== true) {
       var menu = Menu.buildFromTemplate(menuTemplate);
       Menu.setApplicationMenu(menu);
 
