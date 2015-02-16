@@ -21,8 +21,8 @@ app.on('ready', function() {
   
   // Create the browser window.
   mainWindow = new BrowserWindow({
-	width: 200, 
-	height: 300,
+	width: 668,
+	height: 750,
 	resizable: false,
 	icon: appIconPath
   });  

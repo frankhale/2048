@@ -20,18 +20,17 @@ var Atom2048 = (function(){
       label: 'Restart Game',
       accelerator: 'Ctrl+S',
       click: function() { my.init(true); }
-    }//,
-    //{
-    //  label: 'Toggle Dev Tools',
-    //  accelerator: 'Ctrl+D',
-    //  click: function() { my.toggleDevTools(); }
-    //},
-    //{
-    //  label: 'Reload',
-    //  accelerator: 'Ctrl+R',
-    //  click: function() { my.reload(); }
-    //}
-    ]
+    },
+    {
+      label: 'Toggle Dev Tools',
+      accelerator: 'Ctrl+D',
+      click: function() { my.toggleDevTools(); }
+    },
+    {
+      label: 'Reload',
+      accelerator: 'Ctrl+R',
+      click: function() { my.reload(); }
+    }]
   }
   ];
 
@@ -71,7 +70,7 @@ var Atom2048 = (function(){
     if(num===0){
       _class = 'blankTile';
     }
-    
+
     return `<div class='${_class}' style='background-color:${bgcolor};'>${num}</div>`
   };
 
@@ -138,8 +137,8 @@ var Atom2048 = (function(){
         var currTile = m[row][tile];
         if(currTile !== 0) {
           var currIndex = tile,
-              lookAhead = m[row].length - tile,
-              matches = [];
+          lookAhead = m[row].length - tile,
+          matches = [];
           for(var j = 1; j <= lookAhead; j++) {
             if(currTile === m[row][tile+j]){
               matches.push(currTile);
@@ -239,7 +238,7 @@ var Atom2048 = (function(){
             break;
           }
         }
-	
+
         $(`#${_counter}`).html(_tile);
 
         if(newTile.x === tile && newTile.y === row) {				
@@ -260,8 +259,11 @@ var Atom2048 = (function(){
       }
     }
 
-    setTimeout(() => {					
-      $(".newTile").each((e) => $(e).removeClass("newTile"), 2000);
+    $(".newTile").each(function(t) {
+      var remClass = setInterval(() => {
+        $(this).removeClass("newTile");
+        clearInterval(remClass);
+      }, 2000);
     });
   };
 
@@ -277,7 +279,7 @@ var Atom2048 = (function(){
         } else {
           data[row][tile] = 4;
         }
-
+        
         newTile.x = tile;
         newTile.y = row;
       }
@@ -314,7 +316,7 @@ var Atom2048 = (function(){
     function mvRight(data) {
       for(var row = 0; row < data.length; row++) {
         var _t = _.without(data[row], 0),
-            tlength = _t.length;
+        tlength = _t.length;
         for(var i = 0; i < data[row].length - tlength; i++) {
           _t.unshift(0);
         }
@@ -336,7 +338,7 @@ var Atom2048 = (function(){
     function mvUp(data) {
       for(var row = 0; row < data.length; row++) {
         var _t = _.without(data[row], 0),
-            tlength = _t.length;
+        tlength = _t.length;
         for(var i = 0; i < data[row].length - tlength; i++) {
           _t.unshift(0);
         }
@@ -360,7 +362,7 @@ var Atom2048 = (function(){
     function mvDown(data) {
       for(var row = 0; row < data.length; row++) {
         var _t = _.without(data[row], 0),
-            tlength = _t.length;
+        tlength = _t.length;
         for(var i = 0; i < data[row].length - tlength; i++) {
           _t.push(0);
         }
@@ -392,33 +394,33 @@ var Atom2048 = (function(){
       case keyCodes.left: 
         gameBoardData = leftTransform(gameBoardData);
 
-        if(!(arraysEqual(data, gameBoardData))) { 
-          drawGameBoard(gameBoardData);
-        }
+      if(!(arraysEqual(data, gameBoardData))) { 
+        drawGameBoard(gameBoardData);
+      }
       break;
 
       case keyCodes.right:
         gameBoardData = rightTransform(gameBoardData);
-        
-        if(!(arraysEqual(data, gameBoardData))) { 
-          drawGameBoard(gameBoardData);
-        }
+
+      if(!(arraysEqual(data, gameBoardData))) { 
+        drawGameBoard(gameBoardData);
+      }
       break;
 
       case keyCodes.up:
         gameBoardData = upTransform(gameBoardData);
-        
-        if(!(arraysEqual(data, gameBoardData))) { 
-          drawGameBoard(gameBoardData);
-        }
+
+      if(!(arraysEqual(data, gameBoardData))) { 
+        drawGameBoard(gameBoardData);
+      }
       break;
 
       case keyCodes.down: 
         gameBoardData = downTransform(gameBoardData);
 
-        if(!(arraysEqual(data, gameBoardData))) { 
-          drawGameBoard(gameBoardData);
-        }
+      if(!(arraysEqual(data, gameBoardData))) { 
+        drawGameBoard(gameBoardData);
+      }
       break;
     }
   };
@@ -429,7 +431,7 @@ var Atom2048 = (function(){
       Menu.setApplicationMenu(menu);
 
       document.onkeydown = documentOnkeydown;
-      
+
       $splash.fadeOut(3500, function() {
         $content.toggle();
         drawGameBoard(gameBoardData);
